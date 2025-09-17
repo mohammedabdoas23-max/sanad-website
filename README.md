@@ -1,569 +1,733 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منصة سند — خدمات طلابية إلكترونية وتعليمية</title>
-  <meta name="description" content="منصة سند للخدمات الطلابية — ملخصات، حلول واجبات، مشاريع، باقات، متجر. دعم لطلاب جامعة الملك سعود KSU."/>
+  <title>منصة سند | خدمات طلابية متكاملة — جامعة الملك سعود (KSU)</title>
+  <meta name="description" content="منصة سند — خدمات طلابية متكاملة: حلول واجبات وكويزات، مشاريع، عروض، ملخصات ومتابعة فصليّة لطلاب جامعة الملك سعود."/>
+  <meta name="author" content="منصة سند — Sanad Platform" />
   <style>
-    /* ---------- Base & Fonts ---------- */
     :root{
-      --ksu-blue:#002b5c;
-      --accent:#0066cc;
-      --muted:#6b7280;
+      --ksu-dark:#002b5c;    /* KSU deep blue */
+      --ksu-mid:#0a4fa1;     /* accent */
+      --bg:#f5f8fb;
       --card:#ffffff;
-      --bg:#f6f8fb;
-      --gold:#ffb700;
+      --muted:#57606a;
+      --gold:#f59e0b;
       --success:#16a34a;
-      --danger:#ef4444;
+      --radius:12px;
+      --glass:rgba(255,255,255,0.7);
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter, "Segoe UI", Tahoma, Arial; background:var(--bg); color:#0f172a; line-height:1.55}
-    a{text-decoration:none;color:inherit}
-    .container{max-width:1150px;margin:0 auto;padding:22px}
-
-    /* ---------- Header ---------- */
-    header{background:linear-gradient(90deg,var(--ksu-blue),#004aad);color:#fff;padding:18px 0;box-shadow:0 6px 24px rgba(2,6,23,0.12)}
-    .brand{display:flex;gap:14px;align-items:center}
-    .logo{width:54px;height:54px;background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:6px}
-    .logo svg{width:40px;height:40px}
-    header h1{font-size:18px;margin:0}
-    nav{display:flex;gap:10px;align-items:center;margin-left:auto}
-    nav a{color:rgba(255,255,255,0.95);padding:8px 12px;border-radius:8px;font-weight:600}
-    nav a.cta{background:var(--gold);color:#000}
-
-    /* ---------- Hero ---------- */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:26px;align-items:center;padding:36px 0}
-    .hero .card{background:var(--card);padding:22px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-    .hero h2{color:var(--ksu-blue);margin:0 0 8px;font-size:26px}
-    .lead{color:var(--muted);margin-bottom:14px}
-    .features{display:flex;gap:10px;flex-wrap:wrap}
-    .pill{background:#eef7ff;color:var(--accent);padding:8px 12px;border-radius:999px;font-weight:600;font-size:13px}
-
-    /* ---------- Cards grid ---------- */
-    .grid{display:grid;gap:16px}
-    .cols-3{grid-template-columns:repeat(3,1fr)}
-    .service-card{background:var(--card);padding:14px;border-radius:10px;border:1px solid #eef3ff}
-    .service-card h3{margin:0 0 8px;color:var(--ksu-blue)}
+    body{margin:0;font-family: "Noto Kufi Arabic", "Segoe UI", Tahoma, Arial, sans-serif;background:linear-gradient(180deg,var(--bg),#ffffff);color:#0b1220;line-height:1.5}
+    .wrap{max-width:1180px;margin:20px auto;padding:16px}
+    /* header */
+    header.top{display:flex;align-items:center;gap:14px;padding:12px;border-radius:14px;background:linear-gradient(90deg,var(--ksu-dark),var(--ksu-mid));color:#fff;box-shadow:0 6px 18px rgba(3,37,77,0.12)}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo-box{width:64px;height:64px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+    .brand{font-weight:900;font-size:20px}
+    .tag{font-size:13px;color:rgba(255,255,255,0.9)}
+    .nav-actions{margin-left:auto;display:flex;gap:8px}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:800}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff}
+    .btn-primary{background:var(--gold);color:#000}
+    /* grid */
+    .layout{display:grid;grid-template-columns:300px 1fr 320px;gap:16px;margin-top:16px}
+    @media(max-width:1100px){.layout{grid-template-columns:1fr;}.right{order:3}}
+    /* sidebar */
+    .sidebar{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 6px 18px rgba(12,37,77,0.03)}
+    .sidebar h4{margin:6px 0 12px;color:var(--ksu-dark)}
+    .side-item{padding:10px;border-radius:10px;cursor:pointer;color:var(--ksu-dark);display:flex;justify-content:space-between;align-items:center}
+    .side-item:hover{background:#f1f8ff}
+    .col-list{display:grid;gap:8px;margin-top:10px}
+    /* main */
+    .main{min-height:360px}
+    .hero{background:linear-gradient(180deg,#ffffff, #fbfdff);border-radius:12px;padding:18px;display:flex;gap:16px;align-items:center;box-shadow:0 6px 18px rgba(12,37,77,0.03)}
+    .hero-left{flex:1}
+    .hero h1{margin:0;color:var(--ksu-dark);font-size:22px}
+    .lead{color:var(--muted);margin-top:6px}
+    .hero-right{width:260px}
+    .kpi{display:flex;gap:8px;margin-top:12px}
+    .kpi .item{background:#f1f8ff;border-radius:8px;padding:10px;text-align:center;flex:1;color:var(--ksu-dark)}
+    /* cards */
+    .card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(12,37,77,0.03);margin-top:14px}
+    .card-title{font-weight:900;color:var(--ksu-dark);margin-bottom:8px}
+    .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    @media(max-width:900px){.service-grid{grid-template-columns:repeat(1,1fr)}}
+    .service{padding:12px;border-radius:10px;border:1px solid #eef6ff}
+    .service strong{display:block;color:var(--ksu-dark);margin-bottom:6px}
     .muted{color:var(--muted);font-size:14px}
-
-    /* ---------- Shop & products ---------- */
-    .product{display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;border:1px dashed #e6eefc}
-    .product img{width:64px;height:64px;border-radius:8px;object-fit:cover}
-    .price{font-weight:800;color:var(--ksu-blue);}
-
-    /* ---------- Form ---------- */
-    form .row{display:flex;gap:10px;flex-wrap:wrap}
-    label{font-weight:700;margin-bottom:6px;display:block;color:var(--ksu-blue)}
-    input[type=text],input[type=email],select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #dbeafe;background:#fff}
-    textarea{min-height:120px;resize:vertical}
+    /* right panel */
+    .right{position:sticky;top:20px}
+    .contact{display:flex;gap:8px;align-items:center}
+    .contact a{display:inline-block;padding:10px 12px;border-radius:10px;text-decoration:none;color:#000;background:#f1f7ff;border:1px solid #e3efff;font-weight:800}
+    /* shop item */
+    .product{display:flex;gap:10px;align-items:center;border-radius:10px;padding:10px;border:1px dashed #e6f1ff}
+    .product img{width:72px;height:72px;border-radius:8px;object-fit:cover}
+    /* form */
+    form label{display:block;font-weight:800;margin-bottom:6px;color:var(--ksu-dark)}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #e6eefc;background:#fff}
+    textarea{min-height:88px}
+    .form-row{display:flex;gap:10px}
+    .form-row > div{flex:1}
     .small{font-size:13px;color:var(--muted)}
-
-    /* ---------- Buttons ---------- */
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;border:0}
-    .btn.primary{background:var(--accent);color:#fff}
-    .btn.ghost{background:transparent;border:1px solid #dbeafe;color:var(--ksu-blue)}
-    .btn.warn{background:var(--gold);color:#000}
-
-    /* ---------- Modal / Panels ---------- */
-    .panel{background:var(--card);padding:14px;border-radius:10px;border:1px solid #e6eefc}
-    .right{padding-left:18px}
-
-    /* ---------- Footer ---------- */
-    footer{background:#061325;color:#cfe8ff;padding:22px;margin-top:26px;text-align:center;border-top:3px solid rgba(255,255,255,0.04)}
-    footer a{color:#fff;font-weight:700}
-
-    /* ---------- Responsive ---------- */
-    @media(max-width:980px){
-      .hero{grid-template-columns:1fr}
-      nav{display:none}
-      .cols-3{grid-template-columns:repeat(2,1fr)}
-    }
-    @media(max-width:560px){
-      .cols-3{grid-template-columns:1fr}
-    }
-
-    /* ---------- Fancy touches ---------- */
-    .tag{background:#e6f2ff;color:var(--accent);padding:6px 10px;border-radius:8px;font-weight:700}
-    .note{background:#fff7ed;border-left:4px solid #ffd8a8;padding:10px;border-radius:8px;color:#5a3b00}
-    .badge{background:var(--success);color:#fff;padding:6px 8px;border-radius:8px;font-weight:700}
-    .inline{display:flex;gap:8px;align-items:center}
-    .center{text-align:center}
+    .note{background:#fff8e6;border-left:4px solid #ffd8a8;padding:10px;border-radius:8px;color:#6b4b00;margin-top:10px}
+    /* footer */
+    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;padding:18px}
+    /* buttons inside */
+    .btn-cta{background:var(--ksu-mid);color:#fff;padding:10px 12px;border-radius:10px;border:0;font-weight:900}
+    .tag-plain{background:#eef7ff;padding:6px 8px;border-radius:8px;color:var(--ksu-dark);font-weight:800}
+    .price{font-weight:900;color:var(--ksu-dark);font-size:18px}
+    .link{color:var(--ksu-mid);font-weight:800;text-decoration:none}
+    .quote{border-right:4px solid var(--ksu-mid);padding:10px;background:#f8fcff;border-radius:8px}
+    .menu-buttons{display:flex;gap:8px;flex-wrap:wrap}
+    .menu-buttons button{padding:8px 10px;border-radius:8px;border:1px solid #e8f4ff;background:#fff;cursor:pointer}
   </style>
 </head>
 <body>
+  <div class="wrap">
 
-  <!-- HEADER -->
-  <header>
-    <div class="container" style="display:flex;align-items:center">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- SVG logo (سند) -->
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="2" width="60" height="60" rx="10" fill="#002b5c"/>
-            <path d="M18 38c6-6 12-6 18 0" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/>
-            <circle cx="23" cy="24" r="3" fill="#fff"/>
-            <circle cx="35" cy="24" r="3" fill="#fff"/>
+    <!-- HEADER -->
+    <header class="top" role="banner">
+      <div class="logo">
+        <div class="logo-box" aria-hidden="true">
+          <!-- SVG Logo (Sanad + book) -->
+          <svg width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="0" y="0" width="64" height="64" rx="12" fill="#002b5c"/>
+            <g transform="translate(8,10)" fill="#fff">
+              <path d="M8 4h20v3H8zM0 10h28v3H0z" opacity="0.95"/>
+              <path d="M4 20c0-4 6-6 10-6s10 2 10 6v10H4V20z" />
+            </g>
           </svg>
         </div>
         <div>
-          <h1 style="font-size:18px;margin-bottom:2px">منصة سند</h1>
-          <div style="font-size:13px;color:#dbeafc">خدمات إلكترونية وتعليمية — للطلاب</div>
+          <div class="brand">منصة سند</div>
+          <div class="tag">الخدمات الإلكترونية والتعليمية — جامعة الملك سعود</div>
         </div>
       </div>
 
-      <nav aria-label="الرئيسية">
-        <a href="#services">الخدمات</a>
-        <a href="#packages">الباقات</a>
-        <a href="#shop">المتجر</a>
-        <a href="#guide">دليل KSU</a>
-        <a href="#order" class="cta">اطلب خدمة</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <main class="container">
-    <section class="hero">
-      <div class="card">
-        <h2>خدمات طلابية متكاملة لجامعة الملك سعود — سند</h2>
-        <p class="lead">نقدّم لك حل الواجبات والكويزات، تنفيذ المشاريع والتقارير، تجهيز عروض بوربوينت، ملخصات ومراجعات مفهرسة — متابعين معك خطوة بخطوة لغاية تسليم العمل.</p>
-
-        <div class="features">
-          <span class="pill">متابعة خاصة</span>
-          <span class="pill">تسليم خلال 12-24 ساعة</span>
-          <span class="pill">حل مخصص لكل طالب</span>
-          <span class="pill">دفع آمن — أقساط متاحة</span>
-        </div>
-
-        <div style="margin-top:16px">
-          <a class="btn primary" href="#order">اطلب خدمة الآن</a>
-          <a class="btn ghost" href="https://t.me/Helping_KSU" target="_blank">قناة المتجر</a>
-        </div>
-
-        <div style="margin-top:14px" class="small">
-          <strong>المكان الموثوق:</strong> خدماتنا مجرّبة مع طلاب الأترام السابقة — كل عمل خاص مخصص لضمان القبول وتقليل الاقتباس.
-        </div>
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="#services" onclick="navTo('services')">الخدمات</a>
+        <a class="btn btn-ghost" href="#colleges" onclick="navTo('colleges')">الكليات</a>
+        <a class="btn btn-ghost" href="#shop" onclick="navTo('shop')">المتجر</a>
+        <a class="btn btn-primary" href="#order" onclick="navTo('order')">اطلب خدمة</a>
       </div>
+    </header>
 
-      <aside class="panel right">
-        <div class="center">
-          <div style="font-size:13px;color:var(--muted)">سعر الاشتراك لطلاب السنة الأولى المشتركة</div>
-          <div style="font-size:28px;font-weight:900;color:var(--ksu-blue)">180 ر.س / المادة</div>
-          <div class="small" style="margin-top:6px">خصم 15% للمشترك بأكثر من مادة — السعر بعد الخصم: <strong id="subDiscount">153 ر.س</strong> للمادة</div>
-          <div style="margin-top:12px" class="small">في حال تبي خيار اقتصادي بدون حضور المحاضرات: <strong>100 ر.س/مادة</strong></div>
+    <!-- LAYOUT: sidebar / main / right -->
+    <div class="layout">
 
-          <div style="margin-top:14px">
-            <a class="btn warn" href="#order">سجّل اشتراك</a>
-          </div>
+      <!-- SIDEBAR -->
+      <aside class="sidebar" aria-label="تنقّل سريع">
+        <h4>تنقّل سريع</h4>
+
+        <div class="side-item" onclick="navTo('services')">
+          <div>الخدمات المتوفرة</div><div class="small">واجبات • مشاريع • ملخصات</div>
         </div>
+        <div class="side-item" onclick="navTo('shared')">
+          <div>المواد المشتركة</div><div class="small">نهج، فجب، تقن، ريد، إنجل، احصاء</div>
+        </div>
+        <div class="side-item" onclick="navTo('shop')">
+          <div>متجر الملخصات</div><div class="small">ملفات جاهزة للميد والفاينل</div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eef6ff;margin:12px 0">
+
+        <h4>الكليات والمسارات</h4>
+        <div class="col-list" id="collegeLinks">
+          <!-- populated by JS -->
+        </div>
+
+        <hr style="border:none;border-top:1px solid #eef6ff;margin:12px 0">
+        <div class="small">روابط مفيدة</div>
+        <a class="link" href="https://t.me/Helping_KSU" target="_blank">قناة Helping_KSU</a><br/>
+        <a class="link" href="https://t.me/KSUPDFbot" target="_blank">بوت الكتب KSUPDFbot</a>
       </aside>
-    </section>
 
-    <!-- SERVICES -->
-    <section id="services" style="margin-top:18px">
-      <h2>وش نقدّم؟</h2>
-      <div class="grid cols-3" style="margin-top:12px">
-        <div class="service-card">
-          <h3>حل الواجبات & الكويزات</h3>
-          <div class="muted">حل دقيق ومتابعة خاصة لكل طالب — نضمن قبول العمل.</div>
-        </div>
-        <div class="service-card">
-          <h3>مشاريع وتقارير</h3>
-          <div class="muted">تنفيذ كامل حسب متطلبات المقرر مع تسليم مرتب.</div>
-        </div>
-        <div class="service-card">
-          <h3>عروض بوربوينت</h3>
-          <div class="muted">تصميم احترافي جاهز للعرض بالجامعة.</div>
-        </div>
-        <div class="service-card">
-          <h3>ملخصات ومذاكرات</h3>
-          <div class="muted">ملخصات مفهرسة للـميد والفاينل وتجميعات مهمة.</div>
-        </div>
-        <div class="service-card">
-          <h3>استشارات دراسية</h3>
-          <div class="muted">نرتب لك خطة مذاكرة ومتابعة خاصة للوصول للدرجات المطلوبة.</div>
-        </div>
-        <div class="service-card">
-          <h3>قنوات خاصة للمشتركين</h3>
-          <div class="muted">قناة مخصصة لكل مقرر فيها الشروحات، الملخصات، والتسريبات المحلولة قبل الاختبار.</div>
-        </div>
-      </div>
-    </section>
+      <!-- MAIN -->
+      <main class="main">
+        <!-- HERO -->
+        <section class="hero" id="home">
+          <div class="hero-left">
+            <h1>خدمات طلابية متكاملة — منصة سند</h1>
+            <div class="lead">حلول واجبات، كويزات، مشاريع، عروض وملخصات — متابعة خاصة حتى نهاية الترم. عمل خاص لكل طالب وحرص على الجودة ومقابل رسمي ومناسب.</div>
 
-    <!-- PACKAGES -->
-    <section id="packages" style="margin-top:20px">
-      <h2>الباقات الشهيرة</h2>
-      <div class="grid cols-3" style="margin-top:12px">
-        <div class="card">
-          <h3>باقة أساسي</h3>
-          <div class="price">150 ر.س</div>
-          <div class="small">حل واجب فردي + ملخص مختصر + تسليم سريع</div>
-          <div style="margin-top:10px"><a class="btn primary" href="#order" onclick="prefillPackage('أساسي',150)">اطلب باقة</a></div>
-        </div>
-        <div class="card">
-          <h3>باقة قياسي</h3>
-          <div class="price">200 ر.س</div>
-          <div class="small">حل واجبات + كويزات + ملخصات مفهرسة + متابعة</div>
-          <div style="margin-top:10px"><a class="btn primary" href="#order" onclick="prefillPackage('قياسي',200)">اطلب باقة</a></div>
-        </div>
-        <div class="card">
-          <h3>باقة بريميوم</h3>
-          <div class="price">250 ر.س</div>
-          <div class="small">حل شامل + مشاريع + قناة خاصة + دعم أولوية</div>
-          <div style="margin-top:10px"><a class="btn primary" href="#order" onclick="prefillPackage('بريميوم',250)">اطلب باقة</a></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SHOP -->
-    <section id="shop" style="margin-top:22px">
-      <h2>المتجر — ملخصات وملازم</h2>
-      <div class="small">مكاتب رقمية جاهزة للميد/فاينل — تقدر تشوف منتجاتنا في قناة المتجر أو تشتري مباشرة هنا.</div>
-
-      <div style="margin-top:12px" class="grid">
-        <!-- Example product -->
-        <div class="product">
-          <img src="https://i.imgur.com/7XqQw7Y.png" alt="ملزمة مثال">
-          <div style="flex:1">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <strong>ملزمة نهج 101 — تجميع شامل</strong>
-              <div class="price">35 ر.س</div>
-            </div>
-            <div class="muted">ملخصات ومقاطع أسئلة مهمة للميد والفاينل</div>
-            <div style="margin-top:8px">
-              <a class="btn ghost" onclick="addToCart('ملزمة نهج 101',35)">أضف للسلة</a>
+            <div class="kpi">
+              <div class="item"><div class="tag-plain">خصوصية</div><div class="small">كل طالب له حل خاص</div></div>
+              <div class="item"><div class="tag-plain">تسليم 12-24س</div><div class="small">الطلبات العاجلة ضمن الإمكانيات</div></div>
+              <div class="item"><div class="tag-plain">دعم</div><div class="small">متابعة حتى نهاية الترم</div></div>
             </div>
           </div>
-        </div>
 
-        <!-- Add more products as needed -->
-      </div>
-
-      <div id="cartBox" style="margin-top:12px;display:none" class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong>سلة المشتريات</strong><span id="cartTotal">0 ر.س</span>
-        </div>
-        <div style="margin-top:10px">
-          <a class="btn primary" href="#order" onclick="openCartOrder()">اكمال الدفع</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- GUIDE KSU -->
-    <section id="guide" style="margin-top:22px">
-      <h2>دليل جامعة الملك سعود — ملخص المسارات & الكليات</h2>
-      <div class="card">
-        <details open>
-          <summary>المسار الصحي 🏥</summary>
-          <div class="small">كلية الطب • طب الأسنان • الصيدلة • العلوم الطبية التطبيقية (مختبرات، علاج طبيعي، تغذية، أشعة) • التمريض • الخدمات الطبية الطارئة</div>
-        </details>
-        <details>
-          <summary>المسار العلمي ⚙️</summary>
-          <div class="small">الهندسة (كل التخصصات) • علوم الحاسب • كلية العلوم (رياضيات، فيزياء، كيمياء، أحياء، إحصاء)</div>
-        </details>
-        <details>
-          <summary>مسار إدارة الأعمال 💼</summary>
-          <div class="small">المحاسبة • المالية • التسويق • نظم المعلومات الإدارية • الإدارة • الاقتصاد</div>
-        </details>
-        <details>
-          <summary>المسار الإنساني ✨</summary>
-          <div class="small">الآداب • التربية • الشريعة • الحقوق • اللغات والترجمة • السياحة والآثار • الفنون وعلوم الرياضة</div>
-        </details>
-      </div>
-      <p class="small" style="margin-top:10px">روابط مفيدة: بوت الكتب والملخصات — <a href="https://t.me/KSUPDFbot" target="_blank">KSUPDFbot</a> · قناة المتجر — <a href="https://t.me/Helping_KSU" target="_blank">Helping_KSU</a></p>
-    </section>
-
-    <!-- ORDER FORM -->
-    <section id="order" style="margin-top:22px">
-      <h2>نموذج طلب خدمة — عبّ التفاصيل عشان نبدأ</h2>
-      <div class="grid" style="grid-template-columns:1fr 380px;gap:18px">
-        <div class="card">
-          <form id="orderForm" onsubmit="return handleSubmit(event)">
-            <div class="row">
-              <div style="flex:1">
-                <label>اسم الطالب / الطالبة</label>
-                <input type="text" id="studentName" required placeholder="الاسم الكامل">
+          <div class="hero-right">
+            <div style="text-align:center;margin-bottom:10px"><strong class="price">بيانات الدفع الرسمية</strong></div>
+            <div class="card" style="padding:10px">
+              <div class="small">البنك: <strong>البنك العربي الوطني (anb)</strong></div>
+              <div class="small">اسم المستفيد: <strong>عزام عبدالله عبدالعزيز ناجي</strong></div>
+              <div class="small">رقم الحساب: <code>942000177167245</code></div>
+              <div class="small">الآيبان: <code>SA0530100942000177167245</code></div>
+              <div style="margin-top:8px">
+                <a class="contact" href="https://wa.me/966565885750" target="_blank"><span class="btn">واتساب</span></a>
+                <a class="contact" href="https://t.me/iTx7llxb_15" target="_blank"><span class="btn">تيليجرام</span></a>
               </div>
-              <div style="width:160px">
-                <label>الرقم الجامعي</label>
-                <input type="text" id="studentId" placeholder="مثال: 12345678">
+              <div class="small" style="margin-top:8px">بعد التحويل: أرسل إيصال الدفع على الواتساب ليتم تفعيل الطلب خلال وقت قصير.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="card">
+          <div class="card-title">وش نقدّم؟ — الخدمات الرئيسية</div>
+          <div class="small">نخدم كل المواد والتخصصات في جامعة الملك سعود (مسارات التحضيري + التخصصات)، وهذه نبذة مفصّلة لكل خدمة:</div>
+
+          <div class="service-grid" style="margin-top:12px">
+            <div class="service">
+              <strong>حل واجبات & كويزات</strong>
+              <div class="muted">حل سريع ومضبوط حسب متطلبات الدكتور. نضمن الدقة والخصوصية (حل خاص لكل طالب).</div>
+              <div class="small" style="margin-top:8px">الوقت المعتاد: 12-24 ساعة (حسب التعقيد). السعر يبدأ 50 ر.س للكويز البسيط.</div>
+            </div>
+
+            <div class="service">
+              <strong>مشاريع وتقارير وبحوث</strong>
+              <div class="muted">كتابة متكاملة (محتوى، تنسيق، ملاحق، توثيق مراجع APA7 إذا طلب).</div>
+              <div class="small" style="margin-top:8px">تسليم خلال 24 ساعة إلى 3 أيام حسب حجم المشروع. أسعار حسب متطلبات المشروع.</div>
+            </div>
+
+            <div class="service">
+              <strong>عروض بوربوينت احترافية</strong>
+              <div class="muted">تصميم شرائح متناسقة، جاهزة للعرض، مع ملاحظات المتحدث إن رغبت.</div>
+              <div class="small" style="margin-top:8px">سعر العرض يبدأ 60 ر.س (حسب عدد الشرائح والتصميم).</div>
+            </div>
+
+            <div class="service">
+              <strong>خريطة ذهنية / ملخصات</strong>
+              <div class="muted">ملخصات وملازم مفهرسة للميد والفاينل — مرفقة بتجميعات ونماذج اختبارات.</div>
+              <div class="small" style="margin-top:8px">ملزمة المادة تكون بأسعار تبدأ 30 ر.س — اشتراكات متاحة لتزويد كامل الفصل.</div>
+            </div>
+
+            <div class="service">
+              <strong>اشتراك فصلي شامل (متابعة)</strong>
+              <div class="muted">متابعة كاملة لكل الأعمال الفصلية + ملخصات محدثة + مراجعات قبل الميد والفاينل.</div>
+              <div class="small" style="margin-top:8px">سعر اشتراك التحضيري: <strong>180 ر.س للمادة</strong> — خصم 15% عند الاشتراك في مادتين فأكثر.</div>
+            </div>
+
+            <div class="service">
+              <strong>خدمات استشارية ورفع نسبة الاقتباس</strong>
+              <div class="muted">نضمن أعمالًا خاصة ومراجعة لتقليل نسبة الاقتباس. ننبه عن مخاطر النسخ والذكاء الاصطناعي.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Shared subjects (prices fixed for shared materials) -->
+        <section id="shared" class="card">
+          <div class="card-title">المواد المشتركة — مقترحات الأسعار</div>
+          <div class="small">هنا أسعار نمطية للخدمات الخاصة بالمواد المشتركة بين المسارات (الأسعار تقريبية وتُؤكّد بعد إرسال تفاصيل المهمة).</div>
+
+          <div style="margin-top:10px">
+            <div class="product" style="justify-content:space-between">
+              <div>
+                <strong>نهج 101 — (التكليف البحثي / العرض / الخريطة)</strong>
+                <div class="small">التكليف البحثي (توثيق مراجع APA): 50 ر.س — العرض التقديمي: 60 ر.س — الخريطة الذهنية: 40 ر.س</div>
+              </div>
+              <div style="text-align:center">
+                <div class="price">حزمة 3× = 100 ر.س</div>
+                <div class="small">وفر مع الحزمة</div>
+              </div>
+            </div>
+
+            <div class="product" style="justify-content:space-between;margin-top:8px">
+              <div>
+                <strong>فجب 101 — مشاريع اللياقة</strong>
+                <div class="small">مشروع قياسات / دراسة حالة / بحث: يبدأ من 60 ر.س للتكليف البسيط.</div>
+              </div>
+              <div style="text-align:center"><div class="price">عرض مخصص</div></div>
+            </div>
+
+            <div class="product" style="justify-content:space-between;margin-top:8px">
+              <div>
+                <strong>تقن 101 — مهارات الحاسب</strong>
+                <div class="small">نماذج مشاريع (Word/Excel/Presentation) — الأسعار تبدأ 60 ر.س.</div>
+              </div>
+              <div style="text-align:center"><div class="price">ابدأ بـ60 ر.س</div></div>
+            </div>
+
+            <div class="product" style="justify-content:space-between;margin-top:8px">
+              <div>
+                <strong>ريد 101 — ريادة الأعمال</strong>
+                <div class="small">مشروع دراسة جدوى: يبدأ من 80 ر.س (يشمل خطة تسويقية ومالية مختصرة).</div>
+              </div>
+              <div style="text-align:center"><div class="price">من 80 ر.س</div></div>
+            </div>
+
+            <div class="product" style="justify-content:space-between;margin-top:8px">
+              <div>
+                <strong>إنجل — مشروع CA</strong>
+                <div class="small">المشروع CA: يتضمن نصوص وتصحيح ومراجعة — الأسعار تبدأ 50 ر.س.</div>
+              </div>
+              <div style="text-align:center"><div class="price">من 50 ر.س</div></div>
+            </div>
+
+            <div class="product" style="justify-content:space-between;margin-top:8px">
+              <div>
+                <strong>إحصاء — بنوك التمارين</strong>
+                <div class="small">تجميع بنك أسئلة + حلول: 95 ر.س (يوصل خلال 24 ساعة بعد التحويل).</div>
+              </div>
+              <div style="text-align:center"><div class="price">95 ر.س</div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Colleges / Guide -->
+        <section id="colleges" class="card">
+          <div class="card-title">دليل الكليات والتخصصات — KSU (مختصر)</div>
+          <div class="small">اختر كليتك ثم التخصص لتظهر لك الخدمات المتاحة وزر "اطلب خدمة" يملأ النموذج تلقائيًا.</div>
+
+          <div id="guideBoxes" style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+            <!-- populated by JS -->
+          </div>
+        </section>
+
+        <!-- Shop -->
+        <section id="shop" class="card">
+          <div class="card-title">متجر الملخصات والملازم</div>
+          <div class="small">ملفات جاهزة للميد والفاينل — يتم إرسال الملف بعد تأكيد الدفع.</div>
+
+          <div style="margin-top:12px">
+            <div class="product">
+              <img src="https://i.imgur.com/7XqQw7Y.png" alt="ملزمة">
+              <div style="flex:1">
+                <strong>ملزمة تحضيري — نهج 101 (تجميع + ملخص)</strong>
+                <div class="small">ملخص مفهرس وجاهز للمذاكرة</div>
+                <div style="margin-top:8px"><span class="price">30 ر.س</span></div>
+              </div>
+              <div>
+                <button class="btn-cta" onclick="addToShop('ملزمة نهج 101',30)">أضف للسلة</button>
+              </div>
+            </div>
+
+            <div style="margin-top:10px" id="cartArea" class="small hidden">السلة: <span id="cartCount">0</span> منتجات — الإجمالي: <strong id="cartTotal">0 ر.س</strong></div>
+          </div>
+        </section>
+
+        <!-- Order form -->
+        <section id="order" class="card">
+          <div class="card-title">نموذج طلب خدمة — املأ البيانات</div>
+          <div class="small">علشان نبدأ بسرعة: اكتب البيانات الأساسية واضغط "أرسل طلب" لفتح رسالة جاهزة على واتساب — بعد النقل والايصال نبدأ العمل.</div>
+
+          <form id="requestForm" onsubmit="return submitRequest(event)" style="margin-top:12px">
+            <div class="form-row">
+              <div>
+                <label>الاسم الكامل</label>
+                <input id="f_name" placeholder="مثال: محمد عبدالله" required>
+              </div>
+              <div>
+                <label>الرقم الجامعي (إن وُجد)</label>
+                <input id="f_id" placeholder="مثال: 12345678">
               </div>
             </div>
 
             <div style="margin-top:10px">
               <label>الكلية / التخصص</label>
-              <select id="major" required>
-                <option value="">اختر الكلية أو المسار</option>
-                <option>السنة الأولى المشتركة — نهج/فجب/تقن/انجل/ريد</option>
-                <option>كلية الطب</option>
-                <option>كلية الصيدلة</option>
-                <option>كلية الهندسة</option>
-                <option>كلية علوم الحاسب</option>
-                <option>كلية إدارة الأعمال</option>
-                <option>الآداب / الإنساني</option>
-              </select>
+              <input id="f_college" placeholder="اختر الكلية من الدليل أو اكتبها" required>
             </div>
 
-            <div style="margin-top:10px">
-              <label>نوع الخدمة المطلوبة</label>
-              <select id="serviceType" onchange="serviceChanged()" required>
-                <option value="">اختر الخدمة</option>
-                <option value="واجب">حل واجب / كويز</option>
-                <option value="مشروع">مشروع / تقرير</option>
-                <option value="عرض">عرض بوربوينت</option>
-                <option value="ملزمة">ملازمة / ملخص</option>
-                <option value="اشتراك">اشتراك ترم (متابعة كاملة)</option>
-              </select>
-            </div>
-
-            <div id="serviceDetails" style="margin-top:10px;display:none">
-              <label>تفاصيل الطلب (أذكر المادة، موعد التسليم، ملاحظات)</label>
-              <textarea id="details" placeholder="مثال: مقرر نهج 101 - مشروع الخريطة - الجلسة 3 ..."></textarea>
-              <div class="small" style="margin-top:6px">تقدر تضيف ملف أو صورة للواجب بعد ارسال الطلب — أو ارفقها هنا.</div>
-            </div>
-
-            <div style="margin-top:10px">
-              <label>ارفق ملف (اختياري)</label>
-              <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.zip,.png,.jpg">
-              <div class="small">PDF/Word/Zip/صورة — مرفوع على جهازك وسيظهر اسم الملف في ملخص الطلب.</div>
-            </div>
-
-            <div style="margin-top:10px">
-              <label>المنتجات أو المواد (إن وجدت)</label>
-              <div class="small">اختر المواد المشتركة أو اضافات من المتجر:</div>
-              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-                <button type="button" class="btn ghost" onclick="toggleMaterial('نهج 101')">نهج 101</button>
-                <button type="button" class="btn ghost" onclick="toggleMaterial('فجب 101')">فجب 101</button>
-                <button type="button" class="btn ghost" onclick="toggleMaterial('تقن 101')">تقن 101</button>
-                <button type="button" class="btn ghost" onclick="toggleMaterial('ريد 101')">ريد 101</button>
-                <button type="button" class="btn ghost" onclick="toggleMaterial('انجل')">انجل</button>
-                <button type="button" class="btn ghost" onclick="toggleMaterial('احصاء')">احصاء</button>
+            <div class="form-row" style="margin-top:10px">
+              <div>
+                <label>المقرر / المادة</label>
+                <input id="f_course" placeholder="مثال: نهج 101" required>
+              </div>
+              <div>
+                <label>نوع الطلب</label>
+                <select id="f_type" onchange="calcEstimate()" required>
+                  <option value="">اختر نوع الخدمة</option>
+                  <option value="واجب">حل واجب / كويز</option>
+                  <option value="مشروع">مشروع / بحث</option>
+                  <option value="عرض">عرض بوربوينت</option>
+                  <option value="خريطة">خريطة ذهنية</option>
+                  <option value="ملزمة">ملزمة / ملخص</option>
+                  <option value="اشتراك">اشتراك فصلي (متابعة)</option>
+                </select>
               </div>
             </div>
 
-            <div style="margin-top:12px">
-              <label>طريقة الدفع المفضلة</label>
-              <select id="payMethod" onchange="payMethodChanged()">
-                <option value="bank">التحويل البنكي / STC Pay</option>
-                <option value="card">بطاقات (Visa / Master)</option>
-                <option value="crypto">دفع بالعملات الرقمية</option>
-                <option value="onreceive">الدفع بعد التسليم (اتفاق)</option>
-              </select>
+            <div style="margin-top:10px">
+              <label>تفاصيل الطلب (مهم)</label>
+              <textarea id="f_desc" placeholder="ملاحظات عن المطلوب، ملاحظات الدكتور، وقت التسليم المطلوب..."></textarea>
             </div>
 
-            <div id="priceBox" style="margin-top:12px" class="panel">
-              <div class="small">تفاصيل السعر التلقائية</div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-                <div>المجموع المتوقع:</div>
-                <div style="font-weight:900;color:var(--ksu-blue)" id="calcTotal">0 ر.س</div>
+            <div style="margin-top:10px">
+              <label>إرفاق ملف (اختياري)</label>
+              <input type="file" id="f_file">
+              <div class="small">أرفع ملفات المقرر أو صور الأسئلة أو أي ملاحظة لتسريع التنفيذ.</div>
+            </div>
+
+            <div class="form-row" style="margin-top:10px">
+              <div>
+                <label>طريقة الدفع المفضلة</label>
+                <select id="f_pay" onchange="calcEstimate()">
+                  <option value="bank">تحويل بنكي / STC Pay</option>
+                  <option value="card">بطاقة بنكية (Visa/Master)</option>
+                  <option value="later">أقساط / اتفاق</option>
+                </select>
               </div>
-              <div style="margin-top:8px" class="small">(تأكيد السعر النهائي بعد إرسال تفاصيل الطلب والتحقق من المتطلبات)</div>
+              <div>
+                <label>عدد المواد (في حال اشتراك)</label>
+                <input id="f_count" type="number" min="1" value="1" onchange="calcEstimate()">
+              </div>
             </div>
 
-            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
-              <button type="submit" class="btn primary">إرسال الطلب & فتح واتساب</button>
-              <button type="button" class="btn ghost" onclick="resetOrder()">مسح</button>
+            <div class="card" style="margin-top:12px;padding:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div class="small">التكلفة التقديرية</div>
+                <div id="f_estimate" class="price">0 ر.س</div>
+              </div>
+              <div class="small" style="margin-top:8px">السعر النهائي يتحدد بعد مراجعة التفاصيل. تأكيد الطلب يتم بعد استلام إيصال الدفع.</div>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn-cta" type="submit">أرسل طلب — افتح واتساب</button>
+              <button type="button" class="btn" onclick="resetForm()">مسح النموذج</button>
             </div>
           </form>
-        </div>
 
-        <!-- RIGHT PANEL -->
-        <div class="panel">
-          <h4>بيانات التحويل اليدوي</h4>
-          <p class="small">
-            <strong>البنك:</strong> البنك العربي الوطني السعودي (ANB)<br>
-            <strong>اسم المستفيد:</strong> عزام عبدالله عبدالعزيز ناجي<br>
-            <strong>رقم الحساب:</strong> <code>942000177167245</code><br>
-            <strong>IBAN:</strong> <code>SA0530100942000177167245</code>
-          </p>
+          <div style="margin-top:10px" class="note">
+            <strong>تنبيه مهم:</strong> كل طالب له حل خاص. لا ننشر أو نشارك العمل في القروبات. لأي محاولة نسخ/مشاركة قد نطلب تعديلات أو نرفض العمل إذا كان مكررًا.
+          </div>
+        </section>
 
-          <div class="note" style="margin-top:10px">
-            بعد التحويل أرسل إيصال الدفع هنا في الواتساب أو داخل البوت. الدفع بدون إيصال ما يتم اعتماده.
+        <!-- For collaborators -->
+        <section id="partners" class="card">
+          <div class="card-title">انضم لفريق منصة سند — للمتعاونين والمحاضرين</div>
+          <div class="small">لو أنت تدرس مادة، أو تصمم ملخصات، أو تقدر تشرح وتشتغل معنا كمُعاون — هذا النموذج لإرسال بياناتك وسنعاود التواصل.</div>
+
+          <form id="partnerForm" onsubmit="return submitPartner(event)" style="margin-top:12px">
+            <div class="form-row">
+              <div>
+                <label>الاسم</label>
+                <input id="p_name" required placeholder="اسمك الكامل">
+              </div>
+              <div>
+                <label>التخصص / المادة</label>
+                <input id="p_field" required placeholder="مثال: محاضر في الإحصاء / مصمم ملخصات نهج">
+              </div>
+            </div>
+
+            <div style="margin-top:10px">
+              <label>لصق رابط تجريبي (شرح فيديو / نموذج عمل)</label>
+              <input id="p_demo" placeholder="رابط يوتيوب أو تيليجرام">
+            </div>
+
+            <div style="margin-top:10px">
+              <label>نبذة قصيرة عنك</label>
+              <textarea id="p_bio" placeholder="خبرة، سنوات، أي شهادات"></textarea>
+            </div>
+
+            <div style="margin-top:10px">
+              <button class="btn-cta" type="submit">أرسل طلب انضمام</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Terms & policies -->
+        <section id="policy" class="card">
+          <div class="card-title">سياسة العمل وحقوق الملكية</div>
+          <div class="small">
+            - كل الأعمال تُجهّز مخصصة لكل طالب. عند توفر مراجع خارجية نراعي التوثيق حسب نظام الجامعة.<br/>
+            - يُحظر استخدام نسخ ولصق أو رفع نسبة الاقتباس > 25%، وننصح بالالتزام بقواعد الاقتباس.<br/>
+            - نحتفظ بحق تعديل سياسات الدفع أو الأسعار بعد إشعار مسبق.<br/>
+            - حقوق الأعمال: يتم تسليم العمل للطالب، ويمكن للمنصة الاحتفاظ بنسخة لأغراض تحسين الجودة والضمان.
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT PANEL -->
+      <aside class="right">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="small">تواصل سريع</div>
+              <div style="font-weight:900;color:var(--ksu-dark);margin-top:6px">خدمة العملاء — منصة سند</div>
+            </div>
           </div>
 
-          <h4 style="margin-top:12px">طرق أخرى</h4>
-          <p class="small">لو عندك بنك ثاني (راجحي، الأهلي، ساب...) تقدر تحول برضه عبر الآيبان أعلاه من أي بنك.</p>
+          <div style="margin-top:12px">
+            <a class="contact" href="https://wa.me/966565885750" target="_blank">📱 واتساب</a>
+            <a class="contact" href="https://t.me/iTx7llxb_15" target="_blank">✉️ تيليجرام</a>
+            <a class="contact" href="https://t.me/Helping_KSU" target="_blank">📚 قناة</a>
+          </div>
 
-          <div style="margin-top:12px" class="inline">
-            <a class="btn primary" href="https://wa.me/966565885750" target="_blank">راسلنا واتساب</a>
-            <a class="btn ghost" href="https://t.me/iTx7llxb_15" target="_blank">تيليجرام</a>
+          <div style="margin-top:12px" class="small">
+            ⏰ ساعات العمل: يوميًا 10ص — 12ص<br/>
+            ⚠️ نحن نرد الأفضل أولًا؛ الرجاء إرسال (اشتراك + اسم المقرر) أو ملخص طلبك مباشرة.
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- JOIN / Partners -->
-    <section id="partners" style="margin-top:22px">
-      <h2>انضم للفريق أو للأخصائيين</h2>
-      <div class="card">
-        <p class="small">لو أنت متخصص (محاضر، مترجم، مصمم ملخصات، مراجع أكاديمي) وحاب تضيف خدمتك في منصة سند، ارسل طلب انضمام مع تفاصيل خبرتك ورابط تجريبي للمحتوى. نفتح فرص تعاون بمقابل مالي أو نسبة.</p>
-        <div style="margin-top:10px">
-          <a class="btn primary" href="https://wa.me/966565885750?text=اريد%20انضم%20كمتخصص%20في%20منصة%20سند">انضم كمختص</a>
-          <a class="btn ghost" href="mailto:contact@sanad.example?subject=انضمام%20مقدم%20خدمة">ابعت ايميل</a>
+        <div class="card" style="margin-top:12px">
+          <div class="card-title">لماذا تختارنا؟</div>
+          <ul class="small">
+            <li>كادر متخصص وتجارب سابقة ناجحة.</li>
+            <li>عمل خاص لكل طالب — لا نسخ/لصق.</li>
+            <li>متابعة حتى التأكد من قبول العمل.</li>
+            <li>خيارات دفع مرنة وموثوقة.</li>
+          </ul>
         </div>
-      </div>
-    </section>
 
-    <!-- TERMS & NOTES -->
-    <section style="margin-top:22px">
-      <h2>تنبيهات وسياسة العمل</h2>
-      <div class="card small">
-        <ul>
-          <li><strong>خصوصية ومصداقية:</strong> كل عمل يُجهَّز خصيصًا لكل طالب. أي عمل مكرر أو منسوخ قد يُرفض من قِبل الجامعة.</li>
-          <li><strong>حظر النسخ العشوائي:</strong> لا تعتمد على النسخ واللصق ولا تعتمد اعتماد كامل على مولدات الذكاء الاصطناعي دون مراجعة بشرية.</li>
-          <li><strong>التسليم:</strong> عادةً بين 12-24 ساعة حسب نوع الخدمة؛ المشاريع الكبيرة قد تحتاج وقتاً أطول — يتم توضيح الوقت عند تأكيد الطلب.</li>
-          <li><strong>الضمان:</strong> نراجع العمل قبل التسليم ويكون مُصمم ليقبل لدى معظم الدكاترة (لكن قرار القبول النهائي بيد الجامعة والدكتور).</li>
-        </ul>
-      </div>
-    </section>
+        <div class="card" style="margin-top:12px">
+          <div class="card-title">بيانات التحويل (للدفع اليدوي)</div>
+          <div class="small">
+            <strong>البنك:</strong> البنك العربي الوطني السعودي (anb) <br/>
+            <strong>اسم المستفيد:</strong> عزام عبدالله عبدالعزيز ناجي <br/>
+            <strong>رقم الحساب:</strong> <code>942000177167245</code> <br/>
+            <strong>الآيبان:</strong> <code>SA0530100942000177167245</code>
+          </div>
+          <div class="small" style="margin-top:8px">للمستخدمين في بنوك أخرى (راجحي / الأهلي) يكفي لصق الآيبان وتحويل المبلغ — أرسل الإيصال فورًا على الواتساب.</div>
+        </div>
+      </aside>
 
-  </main>
+    </div> <!-- /layout -->
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div style="margin-bottom:8px">© منصة سند للخدمات الإلكترونية والتعليمية — جميع الحقوق محفوظة</div>
-      <div class="small">قنوات التواصل: <a href="https://wa.me/966565885750">واتساب</a> • <a href="https://t.me/iTx7llxb_15">تيليجرام</a> • بوت الكتب: <a href="https://t.me/KSUPDFbot">KSUPDFbot</a></div>
-    </div>
-  </footer>
+    <footer>
+      © منصة سند للخدمات الإلكترونية والتعليمية — جامعة الملك سعود KSU • جميع الحقوق محفوظة.
+    </footer>
+  </div>
 
-  <!-- ---------- SCRIPTS ---------- -->
+  <!-- SCRIPT: data + interaction -->
   <script>
-    // Simple cart & selected materials
-    let cart = [];
-    let selectedMaterials = new Set();
-    const cartBox = document.getElementById('cartBox');
-    const cartTotalEl = document.getElementById('cartTotal');
-
-    function addToCart(name, price){
-      cart.push({name, price});
-      updateCart();
-      alert(name + ' أضيف للسلة');
-    }
-    function updateCart(){
-      if(cart.length===0){cartBox.style.display='none'; return}
-      cartBox.style.display='block';
-      const total = cart.reduce((s,p)=>s+p.price,0);
-      cartTotalEl.textContent = total + ' ر.س';
-    }
-    function openCartOrder(){
-      location.href = '#order';
-      // transfer cart info to form details
-      const det = document.getElementById('details');
-      const list = cart.map(c=>c.name + ' ('+c.price+' ر.س)').join('\\n');
-      det.value = (det.value?det.value+"\\n\\n":"") + "طلبات من السلة:\\n" + list;
-    }
-
-    // Toggle material (buttons)
-    function toggleMaterial(name){
-      if(selectedMaterials.has(name)){ selectedMaterials.delete(name); alert(name+' شالت من الطلب')}
-      else{ selectedMaterials.add(name); alert(name+' اضيفت للطلب')}
-      calcPrice();
-    }
-
-    // Prefill package
-    function prefillPackage(pkg,price){
-      document.getElementById('serviceType').value = 'اشتراك';
-      document.getElementById('details').value = 'طلب باقة: '+pkg+' — السعر: '+price+' ر.س';
-      document.getElementById('serviceDetails').style.display='block';
-      calcPrice();
-      location.href='#order';
-    }
-
-    // Service changed
-    function serviceChanged(){
-      const t = document.getElementById('serviceType').value;
-      if(t){ document.getElementById('serviceDetails').style.display='block'; }
-      else document.getElementById('serviceDetails').style.display='none';
-      calcPrice();
-    }
-
-    // Pay method
-    function payMethodChanged(){
-      // nothing heavy here; form will carry selection
-    }
-
-    // Price calc: rough estimates
-    function calcPrice(){
-      const svc = document.getElementById('serviceType').value;
-      const payMethod = document.getElementById('payMethod').value;
-      let total = 0;
-      // base by service
-      if(svc==='واجب') total += 50;
-      else if(svc==='مشروع') total += 120;
-      else if(svc==='عرض') total += 60;
-      else if(svc==='ملزمة') total += 35;
-      else if(svc==='اشتراك') {
-        // default per-material 180, if selectedMaterials size >1 apply 15% discount
-        const count = Math.max(1, selectedMaterials.size || 1);
-        let per = 180;
-        if(count>=2) per = Math.round(per * 0.85); // 15% off
-        total += per * count;
+    /* ===== بيانات دليل الكليات (موجز من المحتوى الذي طلبته) ===== */
+    const GUIDE = {
+      "المسار الصحي": {
+        "كلية الطب": ["طب وجراحة"],
+        "كلية طب الأسنان": ["طب أسنان"],
+        "كلية الصيدلة": ["دكتور صيدلة"],
+        "العلوم الطبية التطبيقية": ["تغذية سريرية","مختبرات","علاج طبيعي","أشعة","تنفس","بصريات"],
+        "كلية التمريض": ["تمريض عام"],
+        "كلية الخدمات الطبية الطارئة": ["الخدمات الطبية الطارئة"]
+      },
+      "المسار العلمي": {
+        "كلية الهندسة": ["مدني","كهربائي","ميكانيكي","كيميائي","بترول","مساحة"],
+        "علوم الحاسب والمعلومات": ["علوم الحاسب","هندسة البرمجيات","نظم المعلومات"],
+        "كلية العلوم": ["رياضيات","فيزياء","كيمياء","أحياء","إحصاء"],
+        "كلية الأغذية والزراعة": ["إنتاج نباتي","إنتاج حيواني","علوم أغذية"]
+      },
+      "مسار إدارة الأعمال": {
+        "كلية إدارة الأعمال": ["محاسبة","مالية","تسويق","نظم معلومات إدارية","إدارة","اقتصاد"]
+      },
+      "المسار الإنساني": {
+        "الآداب": ["لغة عربية","إعلام","تاريخ","جغرافيا","علم اجتماع"],
+        "الحقوق والدراسات الإسلامية": ["حقوق","شريعة"],
+        "اللغات والترجمة": ["إنجليزي","فرنسي","صيني"]
+      },
+      "فروع": {
+        "المزاحمية": ["هندسة تطبيقية","علوم حاسب تطبيقية","إدارة أعمال تطبيقية"]
       }
-      // add cart items
-      total += cart.reduce((s,p)=>s+p.price,0);
-      // show
-      document.getElementById('calcTotal').textContent = total + ' ر.س';
-      return total;
+    };
+
+    /* Populate college links (sidebar & guideBoxes) */
+    const collegeLinks = document.getElementById('collegeLinks');
+    const guideBoxes = document.getElementById('guideBoxes');
+    for(const track in GUIDE){
+      const div = document.createElement('div');
+      div.className = 'side-item';
+      div.innerHTML = `<div>${track}</div><div class="small">فتح</div>`;
+      div.onclick = ()=> showTrack(track);
+      collegeLinks.appendChild(div);
+
+      // guide box
+      const box = document.createElement('div');
+      box.style.border='1px solid #eef6ff';
+      box.style.padding='12px';
+      box.style.borderRadius='10px';
+      box.innerHTML = `<strong style="color:var(--ksu-dark)">${track}</strong><div class="small" style="margin-top:8px">${Object.keys(GUIDE[track]).join(' • ')}</div>
+        <div style="margin-top:8px"><button class="btn" onclick="showTrack('${escapeJS(track)}')">عرض التخصّصات</button></div>`;
+      guideBoxes.appendChild(box);
     }
 
-    // On form submit -> prepare whatsapp message & open
-    function handleSubmit(e){
+    function escapeJS(s){ return s.replace(/'/g,"\\'") };
+
+    /* Show track -> list colleges & special buttons */
+    function showTrack(track){
+      const colleges = GUIDE[track];
+      let html = `<div class="card-title">${track} — الكليات</div><div style="margin-top:8px" class="small">اختر الكلية لعرض التخصصات والخدمات المتاحة.</div><div style="margin-top:10px;display:grid;gap:10px">`;
+      for(const col in colleges){
+        html += `<div style="padding:10px;border-radius:10px;border:1px solid #eef6ff">
+          <strong style="color:var(--ksu-dark)">${col}</strong>
+          <div class="small" style="margin-top:6px">${colleges[col].join(' • ')}</div>
+          <div style="margin-top:8px">
+            <button class="btn" onclick="prefillCollege('${escapeJS(col)}')">أطلب من هنا</button>
+            <button class="btn" onclick="showCollege('${escapeJS(col)}')">عرض خدمات الكلية</button>
+          </div>
+        </div>`;
+      }
+      html += `</div>`;
+      openDynamic(html);
+    }
+
+    /* show college detail with services */
+    function showCollege(col){
+      let html = `<div class="card-title">خدمات كلية ${col}</div>
+        <div class="small">نقدم: حل الكويزات/الواجبات، مشاريع، عروض، ملخصات، اشتراكات متابعة.</div>
+        <div style="margin-top:12px;display:grid;gap:8px">
+          <div style="padding:10px;border-radius:8px;border:1px solid #eef6ff">
+            <strong>حل واجبات/كويز</strong>
+            <div class="small">سريع وخاص — يبدأ من 50 ر.س</div>
+            <div style="margin-top:6px"><button class="btn" onclick="prefillService('${escapeJS(col)}','واجب')">اطلب حل واجب</button></div>
+          </div>
+
+          <div style="padding:10px;border-radius:8px;border:1px solid #eef6ff">
+            <strong>مشروع/بحث/تقرير</strong>
+            <div class="small">تنسيق كامل + ملاحق + توثيق — السعر يتحدد حسب متطلبات المشروع.</div>
+            <div style="margin-top:6px"><button class="btn" onclick="prefillService('${escapeJS(col)}','مشروع')">اطلب مشروع</button></div>
+          </div>
+
+          <div style="padding:10px;border-radius:8px;border:1px solid #eef6ff">
+            <strong>اشتراك متابعة للمقرر</strong>
+            <div class="small">180 ر.س للمادة (خصم 15% للمادتين أو أكثر)</div>
+            <div style="margin-top:6px"><button class="btn" onclick="prefillService('${escapeJS(col)}','اشتراك')">اشترك الآن</button></div>
+          </div>
+        </div>`;
+      openDynamic(html);
+    }
+
+    /* dynamic panel overlay (use simple modal-like area) */
+    function openDynamic(html){
+      // locate or create an area at top of main
+      let panel = document.getElementById('dynamicPanel');
+      if(!panel){
+        panel = document.createElement('div');
+        panel.id = 'dynamicPanel';
+        panel.className = 'card';
+        document.querySelector('.main').prepend(panel);
+      }
+      panel.innerHTML = html;
+      panel.scrollIntoView({behavior:'smooth'});
+    }
+
+    /* prefill functions */
+    function prefillCollege(col){
+      document.getElementById('f_college').value = col;
+      navTo('order');
+      focusField('f_course');
+    }
+    function prefillService(col,svc){
+      document.getElementById('f_college').value = col;
+      document.getElementById('f_type').value = svc;
+      if(svc==='واجب') document.getElementById('f_course').value = 'واجب المقرر';
+      if(svc==='مشروع') document.getElementById('f_course').value = 'مشروع المقرر';
+      if(svc==='اشتراك') document.getElementById('f_course').value = 'اشتراك متابعة للمقرر';
+      calcEstimate();
+      navTo('order');
+      focusField('f_desc');
+    }
+    function focusField(id){ setTimeout(()=>{ const el=document.getElementById(id); if(el) el.focus(); },300) }
+
+    /* shop cart */
+    let CART = [];
+    function addToShop(name,price){
+      CART.push({name,price});
+      updateCartUI();
+      alert('تم إضافة المنتج للسلة — افتح السلة أسفل المتجر لإرسال الطلب');
+    }
+    function updateCartUI(){
+      const area = document.getElementById('cartArea');
+      const count = document.getElementById('cartCount');
+      const total = document.getElementById('cartTotal');
+      if(CART.length===0){ area.classList.add('hidden'); return; }
+      area.classList.remove('hidden');
+      const sum = CART.reduce((s,p)=>s+p.price,0);
+      count.innerText = CART.length;
+      total.innerText = sum + ' ر.س';
+    }
+
+    /* estimate logic for order form */
+    function calcEstimate(){
+      const type = document.getElementById('f_type').value;
+      const count = parseInt(document.getElementById('f_count').value||1,10);
+      let val = 0;
+      if(type==='واجب') val = 50;
+      else if(type==='مشروع') val = 120;
+      else if(type==='عرض') val = 60;
+      else if(type==='خريطة') val = 40;
+      else if(type==='ملزمة') val = 35;
+      else if(type==='اشتراك'){ val = 180 * count; if(count>=2) val = Math.round(val * 0.85); }
+      // include cart
+      const cartSum = CART.reduce((s,p)=>s+p.price,0);
+      val += cartSum;
+      document.getElementById('f_estimate').innerText = val + ' ر.س';
+      return val;
+    }
+
+    /* submit request -> open WhatsApp message */
+    function submitRequest(e){
       e.preventDefault();
-      const name = document.getElementById('studentName').value.trim();
-      const sid = document.getElementById('studentId').value.trim();
-      const major = document.getElementById('major').value;
-      const svc = document.getElementById('serviceType').value;
-      const details = document.getElementById('details').value.trim();
-      const pay = document.getElementById('payMethod').value;
-      const total = calcPrice();
+      const name = document.getElementById('f_name').value.trim() || '-';
+      const id = document.getElementById('f_id').value.trim() || '-';
+      const college = document.getElementById('f_college').value.trim() || '-';
+      const course = document.getElementById('f_course').value.trim() || '-';
+      const type = document.getElementById('f_type').value || '-';
+      const desc = document.getElementById('f_desc').value.trim() || '-';
+      const pay = document.getElementById('f_pay').value;
+      const count = document.getElementById('f_count').value || 1;
+      const estimate = calcEstimate();
+      const fileInput = document.getElementById('f_file');
+      const fileName = (fileInput && fileInput.files && fileInput.files[0]) ? fileInput.files[0].name : 'لا يوجد';
 
-      // file name
-      const fileInput = document.getElementById('fileUpload');
-      const fileName = fileInput.files.length ? fileInput.files[0].name : 'لا يوجد';
+      let msg = `🟢 طلب خدمة — منصة سند\n`;
+      msg += `الاسم: ${name}\n`;
+      msg += `الرقم الجامعي: ${id}\n`;
+      msg += `الكلية/التخصص: ${college}\n`;
+      msg += `المقرر: ${course}\n`;
+      msg += `نوع الخدمة: ${type}\n`;
+      msg += `تفاصيل: ${desc}\n`;
+      msg += `عدد مواد (إن اشتراك): ${count}\n`;
+      msg += `طريقة الدفع: ${pay}\n`;
+      msg += `تقدير السعر: ${estimate} ر.س\n`;
+      msg += `ملف مرفق: ${fileName}\n\n`;
+      msg += `*بعد التحويل:* أرسل إيصال الدفع على هذا الرقم لتأكيد الطلب وبدء التنفيذ (نبدأ بعد تأكيد الإيصال).`;
 
-      // materials
-      const mats = Array.from(selectedMaterials).join(', ') || 'لا يوجد';
-
-      // Build message
-      let message = '🟢 طلب خدمة من منصة سند%0A';
-      message += '*الاسم:* ' + encodeURIComponent(name) + '%0A';
-      message += '*الرقم الجامعي:* ' + encodeURIComponent(sid) + '%0A';
-      message += '*الكلية/التخصص:* ' + encodeURIComponent(major) + '%0A';
-      message += '*نوع الخدمة:* ' + encodeURIComponent(svc) + '%0A';
-      message += '*تفاصيل الطلب:* ' + encodeURIComponent(details || '-') + '%0A';
-      message += '*الملفات المرفقة:* ' + encodeURIComponent(fileName) + '%0A';
-      message += '*المواد المطلوبة:* ' + encodeURIComponent(mats) + '%0A';
-      message += '*طريقة الدفع المفضلة:* ' + encodeURIComponent(pay) + '%0A';
-      message += '*المبلغ التقريبي:* ' + encodeURIComponent(total + ' ر.س') + '%0A';
-      message += '%0A' + encodeURIComponent('أرسلوا إيصال التحويل بعد الدفع حتى نفعل الطلب.');
-
-      // open WhatsApp
-      const wa = 'https://wa.me/966565885750?text=' + message;
+      const wa = 'https://wa.me/966565885750?text=' + encodeURIComponent(msg);
       window.open(wa,'_blank');
-
-      // optional: show toast or reset
-      alert('تم تجهيز رسالة الطلب — افتح واتساب لإرسالها وتأكيد الطلب. بعد استلام الإيصال بنفعل الطلب.');
+      alert('تم تجهيز رسالة الطلب — سيفتح واتساب لإرسالها. بعد استلام الإيصال نبدأ العمل فورًا.');
       return false;
     }
 
-    // Reset
-    function resetOrder(){
-      document.getElementById('orderForm').reset();
-      selectedMaterials = new Set();
-      cart = [];
-      updateCart();
-      calcPrice();
-      document.getElementById('serviceDetails').style.display='none';
+    /* partner form */
+    function submitPartner(e){
+      e.preventDefault();
+      const name = document.getElementById('p_name').value.trim();
+      const field = document.getElementById('p_field').value.trim();
+      const demo = document.getElementById('p_demo').value.trim() || '-';
+      const bio = document.getElementById('p_bio').value.trim() || '-';
+
+      let msg = `📩 طلب شراكة — منصة سند\nالاسم: ${name}\nالتخصص: ${field}\nرابط تجريبي: ${demo}\nنبذة: ${bio}\n\n`;
+      msg += 'نرجو إرسال هذه الرسالة عبر الواتساب للنظر في الانضمام.';
+      const wa = 'https://wa.me/966565885750?text=' + encodeURIComponent(msg);
+      window.open(wa,'_blank');
+      alert('تم تجهيز رسالة الشراكة — افتح واتساب لإرسالها.');
+      return false;
     }
 
-    // small interval calc
-    setInterval(calcPrice,1000);
+    /* reset form */
+    function resetForm(){
+      document.getElementById('requestForm').reset();
+      document.getElementById('f_estimate').innerText = '0 ر.س';
+    }
 
-    // init
-    updateCart();
-    calcPrice();
+    /* nav helper */
+    function navTo(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    }
+
+    /* init: populate some sidebar quick links */
+    (function init(){
+      // show top message or latest published
+      // attach approximate estimate updater
+      document.getElementById('f_type').addEventListener('change',calcEstimate);
+      document.getElementById('f_count').addEventListener('change',calcEstimate);
+      // initial populate dynamic panel placeholder
+      // (nothing else)
+    })();
   </script>
 </body>
 </html>
